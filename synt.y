@@ -1,8 +1,32 @@
-%token mc_import pvg bib_io bib_lang err mc_public 
-       mc_private mc_protected mc_class idf idf_reel aco_ov aco_fr
-	   mc_entier mc_reel mc_chaine vrg idf_tab cr_ov cr_fm
-	   cst mc_operateur_ar  idf_entier mc_print string par_ov par_fr
-       mc_operateur_comp mc_affecter comment scan
+%token 
+  mc_import
+  pvg
+  bib_io
+  bib_lang
+  err mc_public 
+  mc_private
+  mc_protected
+  mc_class
+  idf
+  idf_reel
+  aco_ov
+  aco_fr
+	mc_entier
+  mc_reel
+  mc_chaine
+  vrg
+  idf_tab
+  cr_ov
+  cr_fm
+	cst
+  mc_operateur_ar
+  mc_print
+  string
+  par_ov
+  par_fr
+  mc_operateur_comp
+  mc_affecter
+  comment scan
 
 %%
 S: LISTE_BIB HEADER_CLASS aco_ov CORPS aco_fr{printf("pgm syntaxiquement correcte"); 

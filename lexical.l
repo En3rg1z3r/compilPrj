@@ -32,7 +32,6 @@ Chaine return mc_chaine;
 {idf} return idf;
 {idf_tab} return idf_tab;
 {idf_entier} return cst;
-{idf_entier} return idf_entier;
 "[" return cr_ov;
 "]" return cr_fm;
 "," return vrg;
