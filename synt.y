@@ -26,10 +26,10 @@
   par_fr
   mc_operateur_comp
   mc_affecter
-  comment scan
+  comment
+  mc_scan
 
-  vrg
-
+  format
 %%
 S: LISTE_BIB HEADER_CLASS aco_ov CORPS aco_fr{printf("pgm syntaxiquement correcte\n"); 
                YYACCEPT;        }
@@ -43,21 +43,35 @@ MODIFICATEUR:mc_public
 			 ;
 
 CORPS: LIGNE;
-LIGNE :AFFECTATION LIGNE | DEC LIGNE | COMMENTAIRE LIGNE | PRINT LIGNE|AFFECTATION | DEC | COMMENTAIRE | PRINT  ;
+LIGNE :AFFECTATION LIGNE 
+      | DEC LIGNE 
+      | COMMENTAIRE LIGNE 
+      | PRINT LIGNE
+      | AFFECTATION 
+      | DEC 
+      | COMMENTAIRE 
+      | PRINT
+      | SCAN LIGNE
+      | SCAN  ;
 
 COMMENTAIRE :  comment;
 
 PRINT : mc_print par_ov STATEMENT par_fr pvg;
 
 
-//----------------THATS A CHANGE -------
-STATEMENT : string|
-            string vrg idf|
-            EXPRESSION;
+//----------------THATS WHAT I CHANGED -------
+STATEMENT : string
+            |string vrg idf
+            |EXPRESSION;
 
 LISTE_DEC: DEC LISTE_DEC 
           |
 ;
+
+SCAN :  mc_scan format vrg idf par_fr pvg  ;
+
+
+
 //--------------------------------------
 
 

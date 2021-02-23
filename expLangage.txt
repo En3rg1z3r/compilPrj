@@ -7,7 +7,12 @@ Entier @tab[5],@tab2[3];
 ## ceci est un commentaire ##
 $y = 3 + 0.4 + $y;
  
-
 Out("oh god ! %d ", $y);
+In("%s",$y);
+Out("oh god ! %d ", $y);
+In("%s",$y);
+
+
+
 
 }
