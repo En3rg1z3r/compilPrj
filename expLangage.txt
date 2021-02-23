@@ -8,6 +8,6 @@ Entier @tab[5],@tab2[3];
 $y = 3 + 0.4 + $y;
  
 
-print("oh god ! ");
+Out("oh god ! %d ", $y);
 
 }

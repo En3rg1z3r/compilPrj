@@ -13,7 +13,14 @@ operateur_comp !=|==|(<|>)=?
 mot .*
 comment ##{mot}##
 
-string \".*\"
+
+
+
+
+
+string \"(.|\%d)*\"
+
+
 
 
 
@@ -40,8 +47,15 @@ Chaine return mc_chaine;
 "(" return par_ov;
 ")" return par_fr;
 ; return pvg;
+
+
+
+, return vrg;
+
+
+
 {string} return string;
-print return mc_print;
+Out return mc_print;
 {operateur_ar} return mc_operateur_ar;
 {idf_reel} return idf_reel;
 {operateur_comp} return mc_operateur_comp;

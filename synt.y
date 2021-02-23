@@ -28,16 +28,18 @@
   mc_affecter
   comment scan
 
+  vrg
+
 %%
-S: LISTE_BIB HEADER_CLASS aco_ov CORPS aco_fr{printf("pgm syntaxiquement correcte"); 
+S: LISTE_BIB HEADER_CLASS aco_ov CORPS aco_fr{printf("pgm syntaxiquement correcte\n"); 
                YYACCEPT;        }
 ;
 
 HEADER_CLASS:MODIFICATEUR mc_class idf
 ;
-MODIFICATEUR: mc_public
-             |mc_private
-			 |mc_protected
+MODIFICATEUR:mc_public
+            |mc_private
+			      |mc_protected
 			 ;
 
 CORPS: LIGNE;
@@ -47,13 +49,16 @@ COMMENTAIRE :  comment;
 
 PRINT : mc_print par_ov STATEMENT par_fr pvg;
 
-STATEMENT : string | EXPRESSION;
+
+//----------------THATS A CHANGE -------
+STATEMENT : string|
+            string vrg idf|
+            EXPRESSION;
 
 LISTE_DEC: DEC LISTE_DEC 
           |
 ;
-
-
+//--------------------------------------
 
 
 DEC: DEC_VAR
