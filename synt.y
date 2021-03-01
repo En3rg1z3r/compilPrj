@@ -27,14 +27,14 @@
   mc_operateur_comp
   mc_affecter
   comment 
-  scan
+  mc_scan
   mc_for
   mc_operateur_short_hand
 
+  format
 %%
-S: 
-  LISTE_BIB HEADER_CLASS aco_ov CORPS aco_fr
-  {printf("pgm syntaxiquement correcte"); YYACCEPT;}
+S: LISTE_BIB HEADER_CLASS aco_ov CORPS aco_fr{printf("pgm syntaxiquement correcte\n"); 
+               YYACCEPT;        }
 ;
 
 HEADER_CLASS:
@@ -56,6 +56,7 @@ INSTRUCTION:
   AFFECTATION |
   DEC |
   COMMENTAIRE |
+  SCAN |
   PRINT |
   BOUCLE_FOR|
   
@@ -76,8 +77,14 @@ BOUCLE_FOR:
 COMMENTAIRE:  comment;
 
 PRINT: mc_print par_ov STATEMENT par_fr pvg;
+SCAN:  mc_scan format vrg idf par_fr pvg  ;
 
-STATEMENT: string | EXPRESSION;
+
+STATEMENT: 
+  string |
+  EXPRESSION|
+  string vrg idf
+;
 
 DEC: 
   DEC_VAR |

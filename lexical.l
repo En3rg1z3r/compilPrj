@@ -16,6 +16,9 @@ mot .*
 comment ##{mot}##
 
 string \".*\"
+mc_scan "In(\""
+format %[dsf]\"
+
 
 
 
@@ -43,9 +46,18 @@ Chaine return mc_chaine;
 "(" return par_ov;
 ")" return par_fr;
 ; return pvg;
+
 {string} return string;
 print return mc_print;
 For return mc_for;
+
+
+
+, return vrg;
+Out return mc_print;
+{mc_scan} return mc_scan;
+{format} return format;
+
 {operateur_ar} return mc_operateur_ar;
 {idf_reel} return idf_reel;
 {operateur_comp} return mc_operateur_comp;
