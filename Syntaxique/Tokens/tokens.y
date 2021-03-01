@@ -1,0 +1,33 @@
+%token 
+  mc_import
+  pvg
+  bib_io
+  bib_lang
+  err mc_public 
+  mc_private
+  mc_protected
+  mc_class
+  idf
+  idf_reel
+  aco_ov
+  aco_fr
+	mc_entier
+  mc_reel
+  mc_chaine
+  vrg
+  idf_tab
+  cr_ov
+  cr_fm
+	cst
+  mc_operateur_ar
+  mc_print
+  string
+  par_ov
+  par_fr
+  mc_operateur_comp
+  mc_affecter
+  comment 
+  mc_scan
+  mc_for
+  mc_operateur_short_hand
+  format

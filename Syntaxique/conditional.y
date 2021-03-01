@@ -1,0 +1,10 @@
+
+BOUCLE_FOR: 
+  mc_for 
+  par_ov
+  AFFECTATION
+  EXPRESSION_LOGIQUE pvg
+  AFFECTATION_SHORT_HAND 
+  par_fr
+  BLOCK
+;
