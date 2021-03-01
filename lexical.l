@@ -1,5 +1,5 @@
 %{
-#include "synt.tab.h"
+#include "syntax.tab.h"
 int nb_ligne=1;
 %}
 lettres [a-zA-Z]
@@ -14,10 +14,10 @@ operateur_comp !=|==|(<|>)=?
 operateur_short_hand \+\+|\-\-
 mot .*
 comment ##{mot}##
-
-string \".*\"
-mc_scan "In(\""
-format %[dsf]\"
+double_quote \"
+format %[dsf]
+string ([^%]*)
+template \"((%[dfs])([^%])*|([^%])*(%[dfs]))((%[dfs])|([^%]))*\"
 
 
 
@@ -47,16 +47,14 @@ Chaine return mc_chaine;
 ")" return par_fr;
 ; return pvg;
 
-{string} return string;
+{double_quote}{string}{double_quote} return string;
 print return mc_print;
 For return mc_for;
 
-
-
 , return vrg;
 Out return mc_print;
-{mc_scan} return mc_scan;
-{format} return format;
+In return mc_scan;
+{template} return template;
 
 {operateur_ar} return mc_operateur_ar;
 {idf_reel} return idf_reel;

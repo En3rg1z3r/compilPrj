@@ -71,7 +71,7 @@
      mc_scan = 287,
      mc_for = 288,
      mc_operateur_short_hand = 289,
-     format = 290
+     template = 290
    };
 #endif
 /* Tokens.  */
@@ -107,7 +107,7 @@
 #define mc_scan 287
 #define mc_for 288
 #define mc_operateur_short_hand 289
-#define format 290
+#define template 290
 
 
 

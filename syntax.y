@@ -30,23 +30,16 @@
   mc_scan
   mc_for
   mc_operateur_short_hand
-  format
+  template
+
 %%
 S: LISTE_BIB CLASS{printf("pgm syntaxiquement correcte\n"); 
                YYACCEPT;        }
 ;
 
-STATEMENT: 
-  string |
-  EXPRESSION|
-  string vrg idf
-;
 
-NOMBRE: 
-  idf_reel| 
-  cst |
-  idf
-;
+
+
 
  
 		  
@@ -60,6 +53,13 @@ AFFECTATION:
 AFFECTATION_SHORT_HAND:
   idf mc_operateur_short_hand
 ;	
+
+NOMBRE: 
+  idf_reel| 
+  cst |
+  idf
+;
+
 HEADER_CLASS:
   MODIFICATEUR mc_class idf
 ;
@@ -74,6 +74,7 @@ BLOCK: aco_ov LISTE_INSTRUCTIONS aco_fr;
 CLASS:
 HEADER_CLASS BLOCK;
 ;
+
 COMMENTAIRE:  comment;
 BOUCLE_FOR: 
   mc_for 
@@ -122,10 +123,18 @@ INSTRUCTION:
   BOUCLE_FOR|
 ;
 
-PRINT: mc_print par_ov STATEMENT par_fr pvg;
+PRINT: mc_print par_ov PRINT_ARGUMENTS par_fr pvg
+;
 
-SCAN:  mc_scan format vrg idf par_fr pvg  ;
+SCAN:  mc_scan par_ov TEMPLATE vrg LISTE_IDF par_fr pvg
+;
 
+
+PRINT_ARGUMENTS:
+  STRING |
+  EXPRESSION|
+  TEMPLATE vrg LISTE_IDF
+;
 NOM_BIB:
   bib_io |
   bib_lang
@@ -137,6 +146,13 @@ BIB: mc_import NOM_BIB pvg
 LISTE_BIB: 
   BIB LISTE_BIB |
 ;	
+STRING:
+  string // "Hello world"
+;
+
+TEMPLATE: // "hello %s"
+  template
+;
 TYPE:
   mc_entier|
   mc_reel|

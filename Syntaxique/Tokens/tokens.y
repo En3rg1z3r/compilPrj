@@ -30,4 +30,5 @@
   mc_scan
   mc_for
   mc_operateur_short_hand
-  format
+  template
+
