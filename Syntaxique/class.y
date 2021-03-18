@@ -1,6 +1,6 @@
 
 HEADER_CLASS:
-  MODIFICATEUR mc_class idf
+  MODIFICATEUR mc_class idf_var
 ;
 MODIFICATEUR: 
   mc_public| 

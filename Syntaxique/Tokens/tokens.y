@@ -1,3 +1,14 @@
+%{
+  int nb_ligne = 1;
+  char sauvType[20];
+
+%}
+%union {
+  int entier;
+  char* str;
+  float reel;
+}
+
 %token 
   mc_import
   pvg
@@ -7,26 +18,25 @@
   mc_private
   mc_protected
   mc_class
-  idf
+  <str>idf_var
   idf_reel
   aco_ov
   aco_fr
-	mc_entier
+	<entier> mc_entier
   mc_reel
   mc_chaine
   vrg
-  idf_tab
+  <str>idf_tab
   cr_ov
   cr_fm
-	cst
+	<entier> idf_entier
   mc_operateur_ar
   mc_print
-  string
+  <str>string
   par_ov
   par_fr
   mc_operateur_comp
   mc_affecter
-  comment 
   mc_scan
   mc_for
   mc_operateur_short_hand

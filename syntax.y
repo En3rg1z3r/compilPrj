@@ -1,3 +1,14 @@
+%{
+  int nb_ligne = 1;
+  char sauvType[20];
+
+%}
+%union {
+  int entier;
+  char* str;
+  float reel;
+}
+
 %token 
   mc_import
   pvg
@@ -7,26 +18,25 @@
   mc_private
   mc_protected
   mc_class
-  idf
+  <str>idf_var
   idf_reel
   aco_ov
   aco_fr
-	mc_entier
+	<entier> mc_entier
   mc_reel
   mc_chaine
   vrg
-  idf_tab
+  <str>idf_tab
   cr_ov
   cr_fm
-	cst
+	<entier> idf_entier
   mc_operateur_ar
   mc_print
-  string
+  <str>string
   par_ov
   par_fr
   mc_operateur_comp
   mc_affecter
-  comment 
   mc_scan
   mc_for
   mc_operateur_short_hand
@@ -45,23 +55,18 @@ S: LISTE_BIB CLASS{printf("pgm syntaxiquement correcte\n");
 		  
 
 AFFECTATION: 
-  idf mc_affecter NOMBRE pvg |
-  idf mc_affecter EXPRESSION  |
-  AFFECTATION_SHORT_HAND pvg
+  idf_var mc_affecter EXPRESSION pvg {handle_undeclared($1)}|
+  AFFECTATION_SHORT_HAND
 ;
 
 AFFECTATION_SHORT_HAND:
-  idf mc_operateur_short_hand
+  idf_var mc_operateur_short_hand pvg {handle_undeclared($1)}
 ;	
 
-NOMBRE: 
-  idf_reel| 
-  cst |
-  idf
-;
+
 
 HEADER_CLASS:
-  MODIFICATEUR mc_class idf
+  MODIFICATEUR mc_class idf_var
 ;
 MODIFICATEUR: 
   mc_public| 
@@ -75,7 +80,6 @@ CLASS:
 HEADER_CLASS BLOCK;
 ;
 
-COMMENTAIRE:  comment;
 BOUCLE_FOR: 
   mc_for 
   par_ov
@@ -93,23 +97,36 @@ DEC_VAR: TYPE LISTE_IDF pvg
 ;
 
 LISTE_IDF: 
-  idf vrg LISTE_IDF|
-  idf
+  idf_var vrg LISTE_IDF {delcare_var($1);}
+  |idf_var {delcare_var($1);}
 ;	
 DEC_TAB: TYPE LISTE_IDF_TAB pvg
 ;
 
 LISTE_IDF_TAB: 
-  idf_tab cr_ov cst cr_fm vrg LISTE_IDF_TAB |
-  idf_tab cr_ov cst cr_fm
+  idf_tab cr_ov idf_entier cr_fm vrg LISTE_IDF_TAB {declare_tab($1, $3);}|
+  idf_tab cr_ov idf_entier cr_fm {declare_tab($1, $3);}
 ;	
-EXPRESSION: 
-  NOMBRE mc_operateur_ar EXPRESSION |
-  NOMBRE
+IDF:
+  idf_var {handle_undeclared($1);}
+  |idf_tab {handle_undeclared($1);}
+  |idf_entier
+  |idf_reel
+;
+
+EXPRESSION_ARETHMETIQUE: 
+  IDF mc_operateur_ar EXPRESSION 
+  |par_ov EXPRESSION par_fr
+  |IDF
 ;
 
 EXPRESSION_LOGIQUE:
-  idf mc_operateur_comp NOMBRE
+  IDF mc_operateur_comp IDF
+;
+
+EXPRESSION:
+  EXPRESSION_ARETHMETIQUE
+  |EXPRESSION_LOGIQUE
 ;
 LISTE_INSTRUCTIONS: INSTRUCTION LISTE_INSTRUCTIONS | 
 ;
@@ -117,24 +134,33 @@ LISTE_INSTRUCTIONS: INSTRUCTION LISTE_INSTRUCTIONS |
 INSTRUCTION: 
   AFFECTATION |
   DEC |
-  COMMENTAIRE |
   SCAN |
   PRINT |
-  BOUCLE_FOR|
+  BOUCLE_FOR
 ;
 
-PRINT: mc_print par_ov PRINT_ARGUMENTS par_fr pvg
+PRINT: mc_print par_ov PRINT_ARGUMENTS par_fr pvg 
+
 ;
 
-SCAN:  mc_scan par_ov TEMPLATE vrg LISTE_IDF par_fr pvg
+SCAN:  mc_scan par_ov template vrg LISTE_IDF par_fr pvg
 ;
 
 
 PRINT_ARGUMENTS:
-  STRING |
-  EXPRESSION|
-  TEMPLATE vrg LISTE_IDF
+  string |
+  EXPRESSION |
+  template vrg LISTE_PARAMS
 ;
+
+LISTE_PARAMS:
+  string vrg LISTE_PARAMS
+  |EXPRESSION vrg LISTE_PARAMS
+  |string
+  |EXPRESSION
+;
+
+
 NOM_BIB:
   bib_io |
   bib_lang
@@ -146,13 +172,6 @@ BIB: mc_import NOM_BIB pvg
 LISTE_BIB: 
   BIB LISTE_BIB |
 ;	
-STRING:
-  string // "Hello world"
-;
-
-TEMPLATE: // "hello %s"
-  template
-;
 TYPE:
   mc_entier|
   mc_reel|
@@ -160,5 +179,12 @@ TYPE:
 ;
 %%
 main()
-{yyparse();}
+{ 
+  yyparse();
+  afficher();
+
+}
 yywrap() {}
+yyerror(char*msg) {
+  printf("Erreur syntaxique a la ligne %d\n", nb_ligne);
+}

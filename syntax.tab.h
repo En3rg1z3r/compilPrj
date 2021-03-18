@@ -48,7 +48,7 @@
      mc_private = 264,
      mc_protected = 265,
      mc_class = 266,
-     idf = 267,
+     idf_var = 267,
      idf_reel = 268,
      aco_ov = 269,
      aco_fr = 270,
@@ -59,7 +59,7 @@
      idf_tab = 275,
      cr_ov = 276,
      cr_fm = 277,
-     cst = 278,
+     idf_entier = 278,
      mc_operateur_ar = 279,
      mc_print = 280,
      string = 281,
@@ -67,11 +67,10 @@
      par_fr = 283,
      mc_operateur_comp = 284,
      mc_affecter = 285,
-     comment = 286,
-     mc_scan = 287,
-     mc_for = 288,
-     mc_operateur_short_hand = 289,
-     template = 290
+     mc_scan = 286,
+     mc_for = 287,
+     mc_operateur_short_hand = 288,
+     template = 289
    };
 #endif
 /* Tokens.  */
@@ -84,7 +83,7 @@
 #define mc_private 264
 #define mc_protected 265
 #define mc_class 266
-#define idf 267
+#define idf_var 267
 #define idf_reel 268
 #define aco_ov 269
 #define aco_fr 270
@@ -95,7 +94,7 @@
 #define idf_tab 275
 #define cr_ov 276
 #define cr_fm 277
-#define cst 278
+#define idf_entier 278
 #define mc_operateur_ar 279
 #define mc_print 280
 #define string 281
@@ -103,17 +102,25 @@
 #define par_fr 283
 #define mc_operateur_comp 284
 #define mc_affecter 285
-#define comment 286
-#define mc_scan 287
-#define mc_for 288
-#define mc_operateur_short_hand 289
-#define template 290
+#define mc_scan 286
+#define mc_for 287
+#define mc_operateur_short_hand 288
+#define template 289
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+#line 6 "syntax.y"
+{
+  int entier;
+  char* str;
+  float reel;
+}
+/* Line 1529 of yacc.c.  */
+#line 123 "syntax.tab.h"
+	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

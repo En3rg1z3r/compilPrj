@@ -1,16 +1,11 @@
 
 AFFECTATION: 
-  idf mc_affecter NOMBRE pvg |
-  idf mc_affecter EXPRESSION  |
-  AFFECTATION_SHORT_HAND pvg
+  idf_var mc_affecter EXPRESSION pvg {handle_undeclared($1)}|
+  AFFECTATION_SHORT_HAND
 ;
 
 AFFECTATION_SHORT_HAND:
-  idf mc_operateur_short_hand
+  idf_var mc_operateur_short_hand pvg {handle_undeclared($1)}
 ;	
 
-NOMBRE: 
-  idf_reel| 
-  cst |
-  idf
-;
+
