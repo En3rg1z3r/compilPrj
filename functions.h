@@ -2,6 +2,7 @@
 extern nb_ligne;
 extern char sauvType[20];
 
+
 void erreur(char msg[], char entity[]) 
 {
   printf("Erreur sémentique : %s, %s a la ligne %d\n", msg, entity, nb_ligne);
@@ -20,20 +21,15 @@ Entity T[100];
 int T_size = 0;
 
 
-bool already_declared(char nom[])
+bool exists(char nom[])
 {
   int i = 0;
   while(i< T_size)
   {
-    if (strcmp(T[i].NomEntite, nom)== 0) 
-    {
-      
+    if (strcmp(T[i].NomEntite, nom)== 0)       
       return true;
-    }
-      
     i++;
   }
-  printf("new variable\n");
   return false;
 }
 
@@ -50,7 +46,7 @@ void insert_idf(char nom[], int size)
 }
 void declare(char nom[], int size)
 {
-  if (already_declared(nom))
+  if (exists(nom))
     
     erreur("variable déja declarée", nom);
   else  
@@ -75,10 +71,26 @@ void declare_tab(char nom[], int size) {
 
 void handle_undeclared(char nom[])
 {
-  if (!already_declared(nom))
+  if (!exists(nom))
   {
     erreur("Variable n'a pas ete declaree", nom);
   }
+}
+void import_lib(char nom[]) 
+{
+  if (exists(nom))
+    printf("Warning: importing %s is useless, already imported.", nom);
+  else 
+  {
+    declare(nom, 1);
+  
+  }
+}
+
+void require_lib()
+{
+  if (!exists("ISIL.io") || !exists("ISIL.lang"))
+    printf("Erreur : Missing library. at line 1\n");
 }
 
 void afficher ()

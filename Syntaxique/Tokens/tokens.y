@@ -12,8 +12,8 @@
 %token 
   mc_import
   pvg
-  bib_io
-  bib_lang
+  <str>bib_io
+  <str>bib_lang
   err mc_public 
   mc_private
   mc_protected

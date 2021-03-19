@@ -1,7 +1,7 @@
 
 NOM_BIB:
-  bib_io |
-  bib_lang
+  bib_io {import_lib($1)}|
+  bib_lang {import_lib($1)}
 ;
 
 BIB: mc_import NOM_BIB pvg

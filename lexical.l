@@ -28,8 +28,17 @@ template \"((%[dfs])([^%\"])*|([^%\"])*(%[dfs]))((%[dfs])|([^%\"]))*\"
 %%
 
 import return mc_import;
-ISIL.io return bib_io;
-ISIL.lang return bib_lang;
+ISIL.io { 
+          strcpy(sauvType, "LIB");
+          yylval.str = strdup("ISIL.io");
+          return bib_io;
+      
+        }
+ISIL.lang { 
+            strcpy(sauvType, "LIB");
+            yylval.str = strdup("ISIL.lang");
+            return bib_lang;
+          }
 public return mc_public;
 private return mc_private;
 protected return mc_protected;

@@ -490,12 +490,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    46,    46,    58,    59,    63,    69,    72,    73,    74,
-      77,    80,    84,    93,    94,    96,   100,   101,   103,   107,
-     108,   111,   112,   113,   114,   118,   119,   120,   124,   128,
-     129,   131,   131,   135,   136,   137,   138,   139,   142,   146,
-     151,   152,   153,   157,   158,   159,   160,   165,   166,   169,
-     173,   173,   176,   177,   178
+       0,    46,    46,    60,    61,    65,    71,    74,    75,    76,
+      79,    82,    86,    95,    96,    98,   102,   103,   105,   109,
+     110,   113,   114,   115,   116,   120,   121,   122,   126,   130,
+     131,   133,   133,   137,   138,   139,   140,   141,   144,   148,
+     153,   154,   155,   159,   160,   161,   162,   167,   168,   171,
+     175,   175,   178,   179,   180
 };
 #endif
 
@@ -1468,53 +1468,70 @@ yyreduce:
     {
         case 2:
 #line 46 "syntax.y"
-    {printf("pgm syntaxiquement correcte\n"); 
-               YYACCEPT;        ;}
+    {
+                     printf("pgm syntaxiquement correcte\n");
+                     YYACCEPT;        
+                    ;}
     break;
 
   case 3:
-#line 58 "syntax.y"
+#line 60 "syntax.y"
     {handle_undeclared((yyvsp[(1) - (4)].str));}
     break;
 
   case 5:
-#line 63 "syntax.y"
+#line 65 "syntax.y"
     {handle_undeclared((yyvsp[(1) - (3)].str));}
     break;
 
+  case 11:
+#line 82 "syntax.y"
+    {require_lib();}
+    break;
+
   case 16:
-#line 100 "syntax.y"
+#line 102 "syntax.y"
     {delcare_var((yyvsp[(1) - (3)].str));;}
     break;
 
   case 17:
-#line 101 "syntax.y"
+#line 103 "syntax.y"
     {delcare_var((yyvsp[(1) - (1)].str));;}
     break;
 
   case 19:
-#line 107 "syntax.y"
+#line 109 "syntax.y"
     {declare_tab((yyvsp[(1) - (6)].str), (yyvsp[(3) - (6)].entier));;}
     break;
 
   case 20:
-#line 108 "syntax.y"
+#line 110 "syntax.y"
     {declare_tab((yyvsp[(1) - (4)].str), (yyvsp[(3) - (4)].entier));;}
     break;
 
   case 21:
-#line 111 "syntax.y"
+#line 113 "syntax.y"
     {handle_undeclared((yyvsp[(1) - (1)].str));;}
     break;
 
   case 22:
-#line 112 "syntax.y"
+#line 114 "syntax.y"
     {handle_undeclared((yyvsp[(1) - (1)].str));;}
+    break;
+
+  case 47:
+#line 167 "syntax.y"
+    {import_lib((yyvsp[(1) - (1)].str));}
+    break;
+
+  case 48:
+#line 168 "syntax.y"
+    {import_lib((yyvsp[(1) - (1)].str));}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1518 "syntax.tab.c"
+#line 1535 "syntax.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1728,7 +1745,7 @@ yyreturn:
 }
 
 
-#line 180 "syntax.y"
+#line 182 "syntax.y"
 
 main()
 { 

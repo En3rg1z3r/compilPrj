@@ -12,8 +12,8 @@
 %token 
   mc_import
   pvg
-  bib_io
-  bib_lang
+  <str>bib_io
+  <str>bib_lang
   err mc_public 
   mc_private
   mc_protected
@@ -43,8 +43,10 @@
   template
 
 %%
-S: LISTE_BIB CLASS{printf("pgm syntaxiquement correcte\n"); 
-               YYACCEPT;        }
+S: LISTE_BIB CLASS {
+                     printf("pgm syntaxiquement correcte\n");
+                     YYACCEPT;        
+                    }
 ;
 
 
@@ -77,7 +79,7 @@ MODIFICATEUR:
 BLOCK: aco_ov LISTE_INSTRUCTIONS aco_fr;
 
 CLASS:
-HEADER_CLASS BLOCK;
+HEADER_CLASS BLOCK {require_lib()}
 ;
 
 BOUCLE_FOR: 
@@ -162,8 +164,8 @@ LISTE_PARAMS:
 
 
 NOM_BIB:
-  bib_io |
-  bib_lang
+  bib_io {import_lib($1)}|
+  bib_lang {import_lib($1)}
 ;
 
 BIB: mc_import NOM_BIB pvg

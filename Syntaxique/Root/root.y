@@ -1,6 +1,8 @@
 %%
-S: LISTE_BIB CLASS{printf("pgm syntaxiquement correcte\n"); 
-               YYACCEPT;        }
+S: LISTE_BIB CLASS {
+                     printf("pgm syntaxiquement correcte\n");
+                     YYACCEPT;        
+                    }
 ;
 
 
