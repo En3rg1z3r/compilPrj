@@ -20,17 +20,24 @@ typedef struct
 Entity T[100];
 int T_size = 0;
 
-
-bool exists(char nom[])
+int get(char nom[])
 {
   int i = 0;
   while(i< T_size)
   {
     if (strcmp(T[i].NomEntite, nom)== 0)       
-      return true;
+      return i;
     i++;
   }
-  return false;
+  return -1;
+}
+
+bool exists(char nom[])
+{ 
+  if (get(nom) < 0)
+    return false;
+  else 
+    return true;
 }
 
 
@@ -47,14 +54,9 @@ void insert_idf(char nom[], int size)
 void declare(char nom[], int size)
 {
   if (exists(nom))
-    
     erreur("variable déja declarée", nom);
-  else  
-  {
+  else 
     insert_idf(nom, size);
-    
-  }
-  
 }
 
 void delcare_var(char nom[])
@@ -69,12 +71,22 @@ void declare_tab(char nom[], int size) {
     declare(nom, size); 
 }
 
+void tab_index(char nom[], int i)
+{
+  int pos = get(nom);
+  if (i < 0)
+    erreur("la taille du tableau doit etre un entier positif", nom);
+  else if(pos == -1)
+    erreur("not declared", nom);
+  else if (T[pos].taille <= i)
+    erreur("index out of bounds", nom);
+
+}
+
 void handle_undeclared(char nom[])
 {
   if (!exists(nom))
-  {
     erreur("Variable n'a pas ete declaree", nom);
-  }
 }
 void import_lib(char nom[]) 
 {
@@ -89,8 +101,22 @@ void import_lib(char nom[])
 
 void require_lib()
 {
-  if (!exists("ISIL.io") || !exists("ISIL.lang"))
-    printf("Erreur : Missing library. at line 1\n");
+  if (!exists("ISIL.io"))
+    printf("Erreur : Missing library. ISIL.io\n");
+  if (!exists("ISIL.lang"))
+    printf("Erreur : Missing library. ISIL.lang\n");
+}
+
+void require_number(char nom[])
+{
+  if (strcmp(T[get(nom)].TypeEntite, "Entier")!=0)
+    erreur("Expression doit etre arithmetique", "");
+}
+
+void require_type(char nom1[], char nom2[])
+{
+  if (strcmp(T[get(nom1)].TypeEntite, T[get(nom2)].TypeEntite) != 0)
+    erreur("Affectation impossible deux types differents.", nom1);
 }
 
 void afficher ()

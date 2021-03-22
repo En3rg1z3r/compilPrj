@@ -1,19 +1,21 @@
 
-IDF:
-  idf_var {handle_undeclared($1);}
-  |idf_tab {handle_undeclared($1);}
-  |idf_entier
+
+
+EXPRESSION_VALUE:
+  idf_entier 
   |idf_reel
+  
 ;
 
 EXPRESSION_ARETHMETIQUE: 
-  IDF mc_operateur_ar EXPRESSION 
-  |par_ov EXPRESSION par_fr
-  |IDF
+  EXPRESSION_VALUE mc_operateur_ar EXPRESSION_ARETHMETIQUE
+  |par_ov EXPRESSION_ARETHMETIQUE par_fr
+  |EXPRESSION_VALUE
 ;
 
 EXPRESSION_LOGIQUE:
-  IDF mc_operateur_comp IDF
+  idf_var mc_operateur_comp idf_var 
+  |idf_var mc_operateur_comp idf_entier 
 ;
 
 EXPRESSION:

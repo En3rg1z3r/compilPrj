@@ -1,6 +1,4 @@
 lex.yy.c
 synt.tab.h
 synt.tab.c
-execute.sh
-try.txt
 lang

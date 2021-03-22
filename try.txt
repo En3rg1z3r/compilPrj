@@ -1,0 +1,16 @@
+import ISIL.io;
+import ISIL.lang;
+
+public class $ACAD {
+  Entier $x, $t;
+  Reel $y;
+  Chaine $z;
+  Entier @tab[20];
+  ##Entier @p[10];##
+
+  
+
+  Out("Hi %s%d", "Helo", $z);
+  
+}
+

@@ -1,6 +1,7 @@
 %{
 #include "syntax.tab.h"
 #include "functions.h"
+
 extern nb_ligne;
 extern YYSTYPE yylval;
 extern char sauvType[20];
@@ -67,6 +68,7 @@ Chaine  { yylval.str = strdup("Chaine");
             if(yyleng < 20) 
             {
               yylval.str = strdup(yytext);
+              
               return idf_var;
             }
             else printf("erreur lexical a la ligne %d: l'idf %s trop long\n",nb_ligne,yytext); 
@@ -74,7 +76,6 @@ Chaine  { yylval.str = strdup("Chaine");
 
 
 {idf_tab} { yylval.str=strdup(yytext);
-          
             return idf_tab;
 			    }
 

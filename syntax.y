@@ -1,7 +1,8 @@
 %{
   int nb_ligne = 1;
   char sauvType[20];
-
+  char expression_type[20];
+ 
 %}
 %union {
   int entier;
@@ -56,13 +57,27 @@ S: LISTE_BIB CLASS {
  
 		  
 
+
 AFFECTATION: 
-  idf_var mc_affecter EXPRESSION pvg {handle_undeclared($1)}|
-  AFFECTATION_SHORT_HAND
+  idf_var  mc_affecter EXPRESSION pvg 
+    {
+      handle_undeclared($1);
+      require_number($1);
+    }
+  |idf_tab cr_ov idf_entier cr_fm  mc_affecter EXPRESSION_ARETHMETIQUE pvg 
+    {
+      handle_undeclared($1);
+      tab_index($1, $3);
+      require_number();
+    }
+  |idf_var mc_affecter idf_var pvg {require_type($1, $3)}
+  |idf_var mc_affecter idf_tab cr_ov idf_entier cr_fm pvg {require_type($1, $3)}
+  |idf_tab cr_ov idf_entier cr_fm  mc_affecter idf_var pvg {require_type($1, $6)}
+  |AFFECTATION_SHORT_HAND
 ;
 
 AFFECTATION_SHORT_HAND:
-  idf_var mc_operateur_short_hand pvg {handle_undeclared($1)}
+  idf_var mc_operateur_short_hand pvg
 ;	
 
 
@@ -87,7 +102,7 @@ BOUCLE_FOR:
   par_ov
   AFFECTATION
   EXPRESSION_LOGIQUE pvg
-  AFFECTATION_SHORT_HAND 
+  AFFECTATION_SHORT_HAND
   par_fr
   BLOCK
 ;
@@ -109,21 +124,23 @@ LISTE_IDF_TAB:
   idf_tab cr_ov idf_entier cr_fm vrg LISTE_IDF_TAB {declare_tab($1, $3);}|
   idf_tab cr_ov idf_entier cr_fm {declare_tab($1, $3);}
 ;	
-IDF:
-  idf_var {handle_undeclared($1);}
-  |idf_tab {handle_undeclared($1);}
-  |idf_entier
+
+
+EXPRESSION_VALUE:
+  idf_entier 
   |idf_reel
+  
 ;
 
 EXPRESSION_ARETHMETIQUE: 
-  IDF mc_operateur_ar EXPRESSION 
-  |par_ov EXPRESSION par_fr
-  |IDF
+  EXPRESSION_VALUE mc_operateur_ar EXPRESSION_ARETHMETIQUE
+  |par_ov EXPRESSION_ARETHMETIQUE par_fr
+  |EXPRESSION_VALUE
 ;
 
 EXPRESSION_LOGIQUE:
-  IDF mc_operateur_comp IDF
+  idf_var mc_operateur_comp idf_var 
+  |idf_var mc_operateur_comp idf_entier 
 ;
 
 EXPRESSION:
@@ -151,15 +168,16 @@ SCAN:  mc_scan par_ov template vrg LISTE_IDF par_fr pvg
 
 PRINT_ARGUMENTS:
   string |
-  EXPRESSION |
   template vrg LISTE_PARAMS
 ;
 
 LISTE_PARAMS:
   string vrg LISTE_PARAMS
-  |EXPRESSION vrg LISTE_PARAMS
+  |idf_var vrg LISTE_PARAMS
+  |idf_tab vrg LISTE_PARAMS
   |string
-  |EXPRESSION
+  |idf_var
+  |idf_tab 
 ;
 
 
@@ -188,5 +206,5 @@ main()
 }
 yywrap() {}
 yyerror(char*msg) {
-  printf("Erreur syntaxique a la ligne %d\n", nb_ligne);
+  printf("erreur syntaxique a ligne %d \n",nb_ligne);
 }

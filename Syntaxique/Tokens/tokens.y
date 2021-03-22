@@ -1,7 +1,8 @@
 %{
   int nb_ligne = 1;
   char sauvType[20];
-
+  char expression_type[20];
+ 
 %}
 %union {
   int entier;
